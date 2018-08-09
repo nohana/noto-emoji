@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# Prerequisites:
+# - `brew cask install inkscape`
+# - `brew install parallel`
+
+set -eu
+
+rm -rf png/128
+mkdir -p png/128
+
+mkdir tmp
+
+ls twemoji/2/assets/*.ai | parallel inkscape -f `pwd`/{} -e `pwd`/tmp/{/.}.png -w 128 -h 128
+
+for path in tmp/*.png; do
+  output_filename=$(echo `basename $path` | sed -e 's/-/_/g; s/^\([0-9a-f][0-9a-f]\)_/00\1_/; s/_fe0e//g; s/_fe0f//g; s/\(.*\)/emoji_u\1/;')
+  mv $path png/128/$output_filename
+done
+
+rmdir tmp
