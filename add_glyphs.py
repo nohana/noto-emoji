@@ -72,7 +72,7 @@ def remap_values(seq_to_file, map_fn):
 def get_png_file_to_advance_mapper(lineheight):
   def map_fn(filename):
     wid, ht = PNG(filename).get_size()
-    return int(round(float(lineheight) * wid / ht))
+    return int(round(float(lineheight) * 0.9 * wid / ht))
   return map_fn
 
 
